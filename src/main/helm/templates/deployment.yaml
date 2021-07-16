@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: devx-helloworld-springboot-z55nv
+    backstage.io/kubernetes-id: devx-helloworld-springboot-z55nv
+  name: devx-helloworld-springboot-z55nv
+  namespace: '{{ .Values.config.namespace }}'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devx-helloworld-springboot-z55nv
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: devx-helloworld-springboot-z55nv
+    spec:
+      containers:
+      - image: uswest2fpmt.jfrog.io/default-docker-virtual/vad1mo/hello-world-rest
+        imagePullPolicy: IfNotPresent
+        name: devx-helloworld-springboot-z55nv
+        resources: {}
+        ports:
+          - containerPort: 5050 
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 5050
+          periodSeconds: 5
+      imagePullSecrets:
+        - name: artifact-registry
+status: {}
